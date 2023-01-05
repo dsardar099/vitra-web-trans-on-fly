@@ -1,4 +1,6 @@
 let db;
+const API = 'http://40.81.241.60:5002';
+// const API = 'http://localhost:5000';
 
 class Vitra {
   apiKey = null;
@@ -13,7 +15,7 @@ class Vitra {
     await localStorage.setItem("apiKey", api_key);
     try {
       let response = await fetch(
-        `http://localhost:5000/project/get-translation?apiKey=${api_key}`,
+        `${API}/project/get-translation?apiKey=${api_key}`,
         {
           method: "GET",
         }
@@ -154,7 +156,7 @@ class Vitra {
     }
     try {
       let response = await fetch(
-        `http://localhost:5000/project/translate-all`,
+        `${API}/project/translate-all`,
         {
           method: "POST",
           headers: {
@@ -190,7 +192,7 @@ class Vitra {
           return text;
         }
         let response = await fetch(
-          `http://localhost:5000/project/translate-text`,
+          `${API}/project/translate-text`,
           {
             method: "POST",
             headers: {
