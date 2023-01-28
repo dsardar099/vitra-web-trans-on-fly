@@ -1,5 +1,5 @@
 let db;
-const API = 'http://40.81.241.60:5002';
+const API = 'https://ontheflyapi.vitra.ai';
 // const API = 'http://localhost:5000';
 
 class Vitra {
