@@ -84,14 +84,18 @@ class Vitra {
       console.log("Lang Changed", langSelect.value);
       const lang = langSelect.value;
       var url = window.location.href;
-      if (url.indexOf("lang=") > -1) {
-        url = url.replace(/lang=[a-z]+/g, `lang=${lang}`);
-      } else {
-        if (url.indexOf("?") > -1) {
-          url += `&lang=${lang}`;
+      if(lang!==null){
+        if (url.indexOf("lang=") > -1) {
+          url = url.replace(/lang=[a-z]+/g, `lang=${lang}`);
         } else {
-          url += `?lang=${lang}`;
+          if (url.indexOf("?") > -1) {
+            url += `&lang=${lang}`;
+          } else {
+            url += `?lang=${lang}`;
+          }
         }
+      }else{
+        url = url.replace(/lang=[a-z]+/g, ``);
       }
       window.location.href = url;
     });
