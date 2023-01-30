@@ -1,6 +1,5 @@
 let db;
-const API = 'https://ontheflyapi.vitra.ai';
-// const API = 'http://localhost:5000';
+const API = "https://ontheflyapi.vitra.ai";
 
 class Vitra {
   apiKey = null;
@@ -26,7 +25,7 @@ class Vitra {
         console.log("INVALID API KEY");
         return;
       } else {
-        this.insertDropdown(data.languages);
+        this.insertDropdown(data.sourceLanguage, data.languages);
         await this.configureDB(data.languages);
         let translatedData = {};
         if (data.success) {
@@ -56,16 +55,15 @@ class Vitra {
     console.log("DB Configured");
   }
 
-  insertDropdown(languages) {
+  insertDropdown(sourceLanguage, targetLanguages) {
     const select = document.createElement("select");
     const defaultOption = document.createElement("option");
-    defaultOption.text = "Select Language";
+    defaultOption.text = sourceLanguage.toUpperCase();
     defaultOption.value = null;
-    defaultOption.setAttribute("disabled", "disabled");
     defaultOption.setAttribute("selected", "selected");
     select.appendChild(defaultOption);
 
-    languages.forEach((lang) => {
+    targetLanguages.forEach((lang) => {
       const option = document.createElement("option");
       option.value = lang;
       option.text = lang.toUpperCase();
@@ -155,21 +153,18 @@ class Vitra {
       this.getAllText(primaryNodes[i]);
     }
     try {
-      let response = await fetch(
-        `${API}/project/translate-all`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            apiKey: this.apiKey,
-            sourceTextData: this.textList,
-            targetLanguage: languages[0],
-          }),
-        }
-      );
+      let response = await fetch(`${API}/project/translate-all`, {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          apiKey: this.apiKey,
+          sourceTextData: this.textList,
+          targetLanguage: languages[0],
+        }),
+      });
       let data = await response.json();
       if (data.success) {
         console.log(data.translation);
@@ -191,21 +186,18 @@ class Vitra {
         if (text.trim().length === 0) {
           return text;
         }
-        let response = await fetch(
-          `${API}/project/translate-text`,
-          {
-            method: "POST",
-            headers: {
-              Accept: "*/*",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              apiKey: this.apiKey,
-              sourceText: text,
-              targetLanguage: lang,
-            }),
-          }
-        );
+        let response = await fetch(`${API}/project/translate-text`, {
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            apiKey: this.apiKey,
+            sourceText: text,
+            targetLanguage: lang,
+          }),
+        });
         let data = await response.json();
         if (data.success === true) {
           const alradyTrans = await db[lang]
