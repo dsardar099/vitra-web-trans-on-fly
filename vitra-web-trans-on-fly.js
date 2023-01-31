@@ -84,7 +84,7 @@ class Vitra {
       console.log("Lang Changed", langSelect.value);
       const lang = langSelect.value;
       var url = window.location.href;
-      if(lang!==null){
+      if (lang !== "null") {
         if (url.indexOf("lang=") > -1) {
           url = url.replace(/lang=[a-z]+/g, `lang=${lang}`);
         } else {
@@ -94,8 +94,11 @@ class Vitra {
             url += `?lang=${lang}`;
           }
         }
-      }else{
+      } else {
         url = url.replace(/lang=[a-z]+/g, ``);
+        if (url[url.length - 1] === "?") {
+          url = url.slice(0, url.length - 1);
+        }
       }
       window.location.href = url;
     });
